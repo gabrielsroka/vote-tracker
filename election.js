@@ -69,14 +69,18 @@ function checkForChanges(json) {
 
 function printState(newData, oldData) {
     if (oldData != null) {
-        console.log("  Total Votes:", comma(newData.tv), "+" + comma(newData.tv - oldData.tv));
+        const delta = newData.tv - oldData.tv;
+        const sign = delta < 0 ? '-' : '+';
+        console.log("  Total Votes:", comma(newData.tv), sign + comma(delta));
     } else {
         console.log("  Total Votes:", comma(newData.tv));
     }
 
     newData.cand.forEach(function (candData) {
         if (oldData != null) {
-            console.log("  " + candData.name + ":", comma(candData.votes), "+" + comma(candData.votes - oldData.votes[candData.name]));
+            const delta = candData.votes - oldData.votes[candData.name];
+            const sign = delta < 0 ? '-' : '+';
+            console.log("  " + candData.name + ":", comma(candData.votes), sign + comma(delta));
             oldData.votes[candData.name] = candData.votes;
         } else {
             console.log("  " + candData.name + ":", comma(candData.votes));
